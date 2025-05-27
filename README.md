@@ -1,10 +1,9 @@
-# Dispute Resolution with Multi-Agent Orchestration (ORD & A2A)
+# Dispute Resolution with Multi-Agent Orchestration
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/btp-a2a-dispute-resolution)](https://api.reuse.software/info/github.com/SAP-samples/btp-a2a-dispute-resolution)
 
 > [!NOTE]
 > **Experimental**: The current source code and architecture are experimental, intended for research and proof-of-concept purposes, and are subject to change.
 
-## Description
 This repository demonstrates an end-to-end scenario where multiple organizations collaborate through domain-specific AI agents to resolve a customer dispute.
 The agents use an open [Agent-to-Agent (A2A)](https://github.com/google/A2A) communication protocol and [Open Resource Discovery (ORD)](https://github.com/open-resource-discovery/specification) to dynamically discover each other's capabilities and collaborate on complex tasks that exceed the scope of a single agent.
 
