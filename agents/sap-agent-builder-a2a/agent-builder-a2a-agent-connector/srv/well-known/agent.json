@@ -1,0 +1,45 @@
+{
+    "name": "SAP Dispute Resolution Agent",
+    "description": "Resolve disputes, manage business processes, and analyze data in the cloud",
+    "url": "https://platform-adoption-advisory-sce-testpab-56g0kzwc-dev-baf2d5a016e.cfapps.eu12.hana.ondemand.com/a2a-service",
+    "provider": {
+        "organization": "SAP",
+        "url": "https://sap.com"
+    },
+    "version": "0.0.1",
+    "authentication": {
+        "schemes": "OAuth2"
+    },
+    "defaultInputModes": ["text/plain"],
+    "defaultOutputModes": ["text/plain", "application/html"],
+    "capabilities": {
+        "streaming": false,
+        "callback": true
+    },
+    "skills": [
+        {
+            "id": "dispute-management",
+            "name": "Dispute Management",
+            "description": "Manage and resolve business disputes efficiently",
+            "tags": ["dispute", "management", "resolution"],
+            "examples": [
+                "list all open dispute cases",
+                "resolve dispute case #12345",
+                "provide details of dispute case #67890"
+            ],
+            "outputModes": ["text/plain", "application/html"]
+        },
+        {
+            "id": "business-data-cloud-analysis",
+            "name": "Business Data Cloud Analysis",
+            "description": "Analyze business data using cloud-based tools",
+            "tags": ["data analysis", "business", "cloud"],
+            "examples": [
+                "analyze financial data for the past quarter",
+                "generate a report on sales performance metrics",
+                "compare customer engagement data across regions"
+            ],
+            "outputModes": ["application/html", "text/csv"]
+        }
+    ]
+}

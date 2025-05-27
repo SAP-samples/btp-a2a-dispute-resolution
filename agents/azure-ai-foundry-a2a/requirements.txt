@@ -1,0 +1,10 @@
+uvicorn[standard]
+a2a-sdk
+httpx
+click
+langchain
+langchain-core
+langchain-openai
+langgraph
+python-dotenv
+pydantic

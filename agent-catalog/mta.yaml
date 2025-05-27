@@ -1,0 +1,27 @@
+---
+_schema-version: 3.3.0
+ID: joule-catalog
+version: 1.0.0
+description: "Runs two services: ORDAggregator to list the Agents Catalog, and A2ARouter to call Agents as an A2A Client"
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production
+modules:
+  - name: joule-catalog-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+      disk-quota: 500MB
+      memory: 250MB
+    build-parameters:
+      builder: custom
+      commands:
+        - npm ci --production --ignore-scripts # skip postinstall during build
+
+resources: []

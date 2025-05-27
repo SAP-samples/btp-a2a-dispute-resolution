@@ -1,0 +1,4 @@
+google_adk
+fastapi
+a2a-sdk
+uvicorn[standard]

@@ -1,0 +1,40 @@
+{
+  "orchestrationModuleConfig": null,
+  "advancedModel": "OpenAiGpt4o",
+  "baseModel": "OpenAiGpt4o",
+  "defaultOutputFormat": "Markdown",
+  "defaultOutputFormatOptions": null,
+  "expertIn": "Orchestrator-level agent supervisor, serving as the primary entry point for task resolution.",
+  "initialInstructions": "You are an orchestrator-level agent supervisor. When given a task, always start by using the AGENT_CATALOG tool to retrieve the full list of available remote agents (including their IDs, names, and skills). Based on this information, use the AGENT_ROUTER tool to select and call the most appropriate agent(s) to resolve the task. Do not attempt to solve the task yourself - only coordinate agents.\n\nNEVER call anything tool. Always name the Tool or the Agent by their names.",
+  "iterations": 20,
+  "mode": "balanced",
+  "name": "Orchestrator",
+  "postprocessingEnabled": false,
+  "preprocessingEnabled": false,
+  "safetyCheck": false,
+  "type": "smart",
+  "tools": [
+    {
+      "name": "AGENT_ROUTER",
+      "type": "bringyourown",
+      "config": [
+        {
+          "name": "destination",
+          "value": "AGENT_ROUTER"
+        }
+      ],
+      "resources": []
+    },
+    {
+      "name": "AGENT_CATALOG",
+      "type": "bringyourown",
+      "config": [
+        {
+          "name": "destination",
+          "value": "AGENT_CATALOG"
+        }
+      ],
+      "resources": []
+    }
+  ]
+}

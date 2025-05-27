@@ -1,0 +1,43 @@
+{
+    "name": "joule-catalog",
+    "version": "1.0.0",
+    "description": "Runs two services: ORDAggregator to list the Agents Catalog, and A2ARouter to call Agents as an A2A Client",
+    "repository": "",
+    "license": "UNLICENSED",
+    "private": true,
+    "engines": {
+        "node": "22.x.x"
+    },
+    "dependencies": {
+        "@sap/cds": "^8",
+        "cors": "^2.8.5",
+        "express": "^4",
+        "zod": "^3.24.4",
+        "zod-to-json-schema": "^3.24.5"
+    },
+    "devDependencies": {
+        "@cap-js/cds-typer": ">=0.1",
+        "@cap-js/cds-types": "^0.10.0",
+        "@cap-js/sqlite": "^1",
+        "@types/node": "^22.0.0",
+        "patch-package": "^8.0.0",
+        "prettier": "3.5.3",
+        "typescript": "^5"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "watch": "cds-tsx w --port 4005",
+        "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then patch-package && test -L node_modules/@types/sap__cds || ln -s ../@cap-js/cds-types node_modules/@types/sap__cds; fi",
+        "build": "mbt build",
+        "deploy": "mbt build && cf deploy mta_archives/*"
+    },
+    "imports": {
+        "#cds-models/*": "./@cds-models/*/index.js"
+    },
+    "prettier": {
+        "singleQuote": false,
+        "trailingComma": "none",
+        "printWidth": 120,
+        "tabWidth": 4
+    }
+}

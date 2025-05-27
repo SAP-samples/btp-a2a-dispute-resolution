@@ -1,0 +1,46 @@
+{
+    "name": "baf-agent-wrapper",
+    "version": "1.0.0",
+    "description": "Wraps the SAP Dispute Resolution Agent, which runs on Business Agent Foundation (BAF), to use the A2A protocol",
+    "repository": "https://github.tools.sap/platform-adoption-advisory/a2a-dispute-resolution",
+    "license": "UNLICENSED",
+    "private": true,
+    "engines": {
+        "node": "22.x.x"
+    },
+    "dependencies": {
+        "@cap-js/ord": "^1.2.0",
+        "@modelcontextprotocol/sdk": "^1.7.0",
+        "@sap/cds": "^8",
+        "@sap/xssec": "^4",
+        "axios": "^1.9.0",
+        "express": "^4",
+        "uuid": "^11.1.0"
+    },
+    "devDependencies": {
+        "@cap-js/cds-typer": ">=0.1",
+        "@cap-js/cds-types": "^0.9.0",
+        "@cap-js/sqlite": "^1",
+        "@types/node": "^22.0.0",
+        "patch-package": "^8.0.0",
+        "prettier": "^3.5.3",
+        "typescript": "^5"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "watch": "cds-tsx w --profile hybrid",
+        "build": "mbt build -t mta_archives --mtar baf-agent-wrapper.tar",
+        "deploy": "cf deploy mta_archives/baf-agent-wrapper.tar",
+        "build-d": "npm run build && npm run deploy",
+        "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then patch-package && test -L node_modules/@types/sap__cds || ln -s ../@cap-js/cds-types node_modules/@types/sap__cds; fi"
+    },
+    "imports": {
+        "#cds-models/*": "./@cds-models/*/index.js"
+    },
+    "prettier": {
+        "singleQuote": false,
+        "trailingComma": "none",
+        "printWidth": 120,
+        "tabWidth": 4
+    }
+}

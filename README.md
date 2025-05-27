@@ -1,33 +1,47 @@
-# SAP-samples/repository-template
-This default template for SAP Samples repositories includes files for README, LICENSE, and REUSE.toml. All repositories on github.com/SAP-samples will be created based on this template.
-
-# Containing Files
-
-1. The LICENSE file:
-In most cases, the license for SAP sample projects is `Apache 2.0`.
-
-2. The REUSE.toml file: 
-The [Reuse Tool](https://reuse.software/) must be used for your samples project. You can find the REUSE.toml in the project initial. Please replace the parts inside the single angle quotation marks < > by the specific information for your repository.
-
-3. The README.md file (this file):
-Please edit this file as it is the primary description file for your project. You can find some placeholder titles for sections below.
-
-# [Title]
-<!-- Please include descriptive title -->
-
-<!--- Register repository https://api.reuse.software/register, then add REUSE badge:
-[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/REPO-NAME)](https://api.reuse.software/info/github.com/SAP-samples/REPO-NAME)
--->
-
+# Dispute Resolution with Multi-Agent Orchestration
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/btp-a2a-dispute-resolution)](https://api.reuse.software/info/github.com/SAP-samples/btp-a2a-dispute-resolution)
 ## Description
-<!-- Please include SEO-friendly description -->
+This repository demonstrates an end-to-end scenario where multiple organizations collaborate through domain-specific AI agents to resolve a customer dispute.
+The agents use an open [Agent-to-Agent (A2A)](https://github.com/google/A2A) communication protocol and [Open Resource Discovery (ORD)](https://github.com/open-resource-discovery/specification) to dynamically discover each other's capabilities and collaborate on complex tasks that exceed the scope of a single agent.
 
-## Requirements
+## Scenario
 
-## Download and Installation
+XStore disputes an invoice from Cymbal Direct after receiving a short shipment of 900 t-shirts instead of the expected 1,000. Vicky, an employee of Cymbal Direct, uses **Joule** to resolve the issue with the help of several backend agents representing different organizations and capabilities.
+
+### Scenario Breakdown
+
+- **User Prompt**: Vicky reports a shipment discrepancy via Joule.
+- **Joule as Orchestrator Agent Planning**:
+  - Identifies required agents from the Agent Catalog.
+  - Creates a task plan for orchestration.
+- **Agent Orchestration**:
+  - **Dispute Resolution Agent (SAP)**: Confirms invoice and shipment data from SAP S/4HANA; expected 1,000 units.
+  - **Warehouse Insights Agent (Google)**: Analyzes logistics and retrieves a packaging slip showing only 900 t-shirts shipped.
+  - **Dispute Policy & Email Agent (Microsoft)**: Retrieves communication logs and creates an email draft to the customer according to the dispute policy.
+- **Response to User**:
+  - Confirmation of dispute resolution creation and customer email.
+
+## Architecture & Repository Structure
+
+![Architecture Diagram](./docs/architecture.svg)
+
+### [agent-catalog](/agent-catalog/): Agent discovery and routing services 
+  - `ord-aggregator`: Acts as `AGENT_CATALOG`, aggregates Agent Cards across catalogs (SAP, GCP, Azure) using ORD.
+  - `a2a-router`: Acts as `AGENT_ROUTER` which connects to `ord-aggregator` and routes requests to appropriate agents using A2A protocol (A2A Client)
+
+### [agents](/agents/): A2A agents on SAP, GCP and Azure
+  - [sap-agent-builder-a2a](/agents/sap-agent-builder-a2a/)
+      - agent-builder-a2a-agent-conntector: CAP application that wraps an Agent running on Agent Builder (SAP BTP) to enable A2A and exposing its Agent Card via Open Resource Discovery (ORD). 
+      - agent-builder-agent-exports: Exported agents from BAF
+          - `orchestrator`: Joule's main entry point for the scenario
+          - `dispute-resolution-agent`: Agent running on Agent Builder (SAP BTP) that handles dispute resolution.
+  - [gcp-adk-a2a](/agents/gcp-adk-a2a/): Agent deployed on GCP based on A2A and exposed Agent Card via Open Resource Discovery (ORD).
+      - `warehouse-insights-agent`: Tracks stock movements across the warehouse and their causes in real-time.
+  - [azure-ai-foundry-a2a](/agents/azure-ai-foundry-a2a/): Agent deployed on Azure based on A2A and exposed Agent Card via Open Resource Discovery (ORD).
+      - `dispute-email-agent`: Agent that creates email drafts according to specific dispute policies for dispute resolution.
 
 ## Known Issues
-<!-- You may simply state "No known issues. -->
+No known issues.
 
 ## How to obtain support
 [Create an issue](https://github.com/SAP-samples/<repository-name>/issues) in this repository if you find a bug or have questions about the content.

@@ -1,0 +1,158 @@
+{
+    "$schema": "https://sap.github.io/open-resource-discovery/spec-v1/interfaces/Document.schema.json",
+    "openResourceDiscovery": "1.9",
+    "policyLevel": "none",
+    "description": "Drafts an email response to a customer about a proposed Dispute Resolution",
+    "products": [
+      {
+        "ordId": "microsoft:product:dispute.email.bot:",
+        "title": "dispute email bot",
+        "shortDescription": "Drafts customer emails for dispute resolution proposals",
+        "vendor": "microsoft:vendor:Microsoft:"
+      }
+    ],
+    "groups": [
+      {
+        "groupId": "microsoft:service:communication.email:EmailDraftService",
+        "groupTypeId": "microsoft:service",
+        "title": "EmailDraft Service"
+      },
+      {
+        "groupId": "microsoft:service:communication.email:TemplateService",
+        "groupTypeId": "microsoft:service",
+        "title": "Template Service"
+      },
+      {
+        "groupId": "microsoft:service:communication.email:CustomerCommService",
+        "groupTypeId": "microsoft:service",
+        "title": "CustomerComm Service"
+      }
+    ],
+    "consumptionBundles": [
+      {
+        "ordId": "disputeemailbot:consumptionBundle:oauth2:v1",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "title": "OAuth2 Protected Resources",
+        "shortDescription": "Endpoints secured via Azure AD OAuth2",
+        "description": "All API calls require a valid Azure AD access token"
+      }
+    ],
+    "apiResources": [
+      {
+        "ordId": "custom.dre:apiResource:EmailDraftService:v1",
+        "title": "EmailDraftService",
+        "shortDescription": "Generate dispute resolution email drafts",
+        "description": "Creates tailored email responses for customer disputes",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "visibility": "public",
+        "partOfGroups": [
+          "microsoft:service:communication.email:EmailDraftService"
+        ],
+        "releaseStatus": "active",
+        "apiProtocol": "rest",
+        "resourceDefinitions": [
+          {
+            "type": "openapi-v3",
+            "mediaType": "application/json",
+            "url": "/.well-known/open-resource-discovery/v1/api-metadata/EmailDraftService.oas3.json",
+            "accessStrategies": [{ "type": "oauth2" }]
+          }
+        ],
+        "entryPoints": ["/email-draft"],
+        "extensible": { "supported": "no" },
+        "entityTypeMappings": [{ "entityTypeTargets": [] }]
+      },
+      {
+        "ordId": "custom.dre:apiResource:TemplateService:v1",
+        "title": "TemplateService",
+        "shortDescription": "Manage email templates",
+        "description": "CRUD operations on dispute-resolution email templates",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "visibility": "public",
+        "partOfGroups": [
+          "microsoft:service:communication.email:TemplateService"
+        ],
+        "releaseStatus": "active",
+        "apiProtocol": "rest",
+        "resourceDefinitions": [
+          {
+            "type": "openapi-v3",
+            "mediaType": "application/json",
+            "url": "/.well-known/open-resource-discovery/v1/api-metadata/TemplateService.oas3.json",
+            "accessStrategies": [{ "type": "oauth2" }]
+          }
+        ],
+        "entryPoints": ["/templates"],
+        "extensible": { "supported": "no" },
+        "entityTypeMappings": [{ "entityTypeTargets": [] }]
+      },
+      {
+        "ordId": "custom.dre:apiResource:CustomerCommService:v1",
+        "title": "CustomerCommService",
+        "shortDescription": "Send emails to customers",
+        "description": "Dispatches drafted emails via SMTP or API",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "visibility": "public",
+        "partOfGroups": [
+          "microsoft:service:communication.email:CustomerCommService"
+        ],
+        "releaseStatus": "active",
+        "apiProtocol": "rest",
+        "resourceDefinitions": [
+          {
+            "type": "openapi-v3",
+            "mediaType": "application/json",
+            "url": "/.well-known/open-resource-discovery/v1/api-metadata/CustomerCommService.oas3.json",
+            "accessStrategies": [{ "type": "oauth2" }]
+          }
+        ],
+        "entryPoints": ["/send-email"],
+        "extensible": { "supported": "no" },
+        "entityTypeMappings": [{ "entityTypeTargets": [] }]
+      },
+      {
+        "ordId": "custom.dre:apiResource:DisputeEmailAgent:v0",
+        "title": "Azure Dispute Email Agent API",
+        "shortDescription": "API for drafting and sending dispute resolution emails",
+        "description": "Use Microsoft’s agent to generate and dispatch customer dispute emails.",
+        "partOfPackage": "custom.dre:package:DisputeEmailBot:v0",
+        "extensible": { "supported": "no", "description": "Not extensible" },
+        "version": "0.0.1",
+        "visibility": "public",
+        "releaseStatus": "beta",
+        "apiProtocol": "rest",
+        "implementationStandard": "custom",
+        "customImplementationStandard": "g:agent-card:v0",
+        "resourceDefinitions": [
+          {
+            "type": "custom",
+            "customType": "g:agent-card:v0",
+            "mediaType": "application/json",
+            "url": "/.well-known/agent.json"
+          }
+        ]
+      }
+    ],
+    "eventResources": [],
+    "vendors": [
+      {
+        "ordId": "microsoft:vendor:Microsoft:",
+        "title": "Microsoft"
+      }
+    ],
+    "packages": [
+      {
+        "ordId": "custom.dre:package:DisputeEmailBot:v0",
+        "title": "Azure Dispute Email Bot Package",
+        "shortDescription": "All APIs for drafting and sending dispute emails",
+        "description": "Bundle of services for email-based dispute resolution on Azure.",
+        "version": "0.0.1",
+        "vendor": "microsoft:vendor:Microsoft:"
+      }
+    ]
+  }
+   

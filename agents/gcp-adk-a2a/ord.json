@@ -1,0 +1,157 @@
+{
+    "$schema": "https://sap.github.io/open-resource-discovery/spec-v1/interfaces/Document.schema.json",
+    "openResourceDiscovery": "1.9",
+    "policyLevel": "none",
+    "description": "Analyses real-time warehouse information and movement of the inventory",
+    "products": [
+      {
+        "ordId": "google:product:inventory.analytics:",
+        "title": "inventory analytics",
+        "shortDescription": "Analyzes real-time warehouse and inventory movement data",
+        "vendor": "google:vendor:Google:"
+      }
+    ],
+    "groups": [
+      {
+        "groupId": "google.cds:service:warehouse.analytics:RealTimeInventoryService",
+        "groupTypeId": "google.cds:service",
+        "title": "RealTimeInventory Service"
+      },
+      {
+        "groupId": "google.cds:service:warehouse.analytics:MovementTrackingService",
+        "groupTypeId": "google.cds:service",
+        "title": "MovementTracking Service"
+      },
+      {
+        "groupId": "google.cds:service:warehouse.analytics:InventoryAnalyticsService",
+        "groupTypeId": "google.cds:service",
+        "title": "InventoryAnalytics Service"
+      }
+    ],
+    "consumptionBundles": [
+      {
+        "ordId": "inventoryanalytics:consumptionBundle:apiKeyAuth:v1",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "title": "API Key Protected Resources",
+        "shortDescription": "Resources requiring an API key",
+        "description": "All endpoints secured via API key authentication"
+      }
+    ],
+    "apiResources": [
+      {
+        "ordId": "custom.inv:apiResource:RealTimeInventoryService:v1",
+        "title": "RealTimeInventoryService",
+        "shortDescription": "Stream real-time inventory data",
+        "description": "Provides live inventory levels and stock status updates",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "visibility": "public",
+        "partOfGroups": [
+          "google.cds:service:warehouse.analytics:RealTimeInventoryService"
+        ],
+        "releaseStatus": "active",
+        "apiProtocol": "rest",
+        "resourceDefinitions": [
+          {
+            "type": "openapi-v3",
+            "mediaType": "application/json",
+            "url": "/.well-known/open-resource-discovery/v1/api-metadata/RealTimeInventoryService.oas3.json",
+            "accessStrategies": [{ "type": "apiKey" }]
+          }
+        ],
+        "entryPoints": ["/real-time-inventory"],
+        "extensible": { "supported": "no" },
+        "entityTypeMappings": [{ "entityTypeTargets": [] }]
+      },
+      {
+        "ordId": "custom.inv:apiResource:MovementTrackingService:v1",
+        "title": "MovementTrackingService",
+        "shortDescription": "Track inventory movement events",
+        "description": "Logs and reports on item transfers and location changes",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "visibility": "public",
+        "partOfGroups": [
+          "google.cds:service:warehouse.analytics:MovementTrackingService"
+        ],
+        "releaseStatus": "active",
+        "apiProtocol": "rest",
+        "resourceDefinitions": [
+          {
+            "type": "openapi-v3",
+            "mediaType": "application/json",
+            "url": "/.well-known/open-resource-discovery/v1/api-metadata/MovementTrackingService.oas3.json",
+            "accessStrategies": [{ "type": "apiKey" }]
+          }
+        ],
+        "entryPoints": ["/movement-tracking"],
+        "extensible": { "supported": "no" },
+        "entityTypeMappings": [{ "entityTypeTargets": [] }]
+      },
+      {
+        "ordId": "custom.inv:apiResource:InventoryAnalyticsService:v1",
+        "title": "InventoryAnalyticsService",
+        "shortDescription": "Perform advanced analytics on inventory flows",
+        "description": "Generates insights and trends from warehouse data",
+        "version": "1.0.0",
+        "lastUpdate": "2025-04-28T12:00:00+01:00",
+        "visibility": "public",
+        "partOfGroups": [
+          "google.cds:service:warehouse.analytics:InventoryAnalyticsService"
+        ],
+        "releaseStatus": "active",
+        "apiProtocol": "rest",
+        "resourceDefinitions": [
+          {
+            "type": "openapi-v3",
+            "mediaType": "application/json",
+            "url": "/.well-known/open-resource-discovery/v1/api-metadata/InventoryAnalyticsService.oas3.json",
+            "accessStrategies": [{ "type": "apiKey" }]
+          }
+        ],
+        "entryPoints": ["/inventory-analytics"],
+        "extensible": { "supported": "no" },
+        "entityTypeMappings": [{ "entityTypeTargets": [] }]
+      },
+      {
+        "ordId": "custom.inv:apiResource:WarehouseInventoryAgent:v0",
+        "title": "Google Warehouse Inventory Agent API",
+        "shortDescription": "API for analysing real-time warehouse and inventory movement",
+        "description": "Leverage Google’s agent to monitor inventory levels and movement flows in real time.",
+        "partOfPackage": "custom.inv:package:InventoryAnalytics:v0",
+        "extensible": { "supported": "no", "description": "Not extensible" },
+        "version": "0.0.1",
+        "visibility": "public",
+        "releaseStatus": "beta",
+        "apiProtocol": "rest",
+        "implementationStandard": "custom",
+        "customImplementationStandard": "g:agent-card:v0",
+        "resourceDefinitions": [
+          {
+            "type": "custom",
+            "customType": "g:agent-card:v0",
+            "mediaType": "application/json",
+            "url": "/.well-known/agent.json"
+          }
+        ]
+      }
+    ],
+    "eventResources": [],
+    "vendors": [
+      {
+        "ordId": "google:vendor:Google:",
+        "title": "Google"
+      }
+    ],
+    "packages": [
+      {
+        "ordId": "custom.inv:package:InventoryAnalytics:v0",
+        "title": "Google Inventory Analytics Package",
+        "shortDescription": "Package containing all resources for Google Warehouse Inventory Agent",
+        "description": "Bundled APIs for real-time warehouse and inventory movement analysis.",
+        "version": "0.0.1",
+        "vendor": "google:vendor:Google:"
+      }
+    ]
+  } 

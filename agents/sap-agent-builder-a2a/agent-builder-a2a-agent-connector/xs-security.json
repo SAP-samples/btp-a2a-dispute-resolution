@@ -1,0 +1,27 @@
+{
+    "xsappname": "a2a-dispute-resolution-paa-a2a-dispute-resolution-dev",
+    "tenant-mode": "dedicated",
+    "description": "Security profile of called application",
+    "scopes": [
+        {
+            "name": "uaa.user",
+            "description": "UAA"
+        }
+    ],
+    "role-templates": [
+        {
+            "name": "Token_Exchange",
+            "description": "UAA",
+            "scope-references": ["uaa.user"]
+        }
+    ],
+    "oauth2-configuration": {
+        "token-validity": 3600,
+        "redirect-uris": [
+            "https://*.applicationstudio.cloud.sap/**",
+            "http*://*.cfapps.*.hana.ondemand.com/**",
+            "http://localhost:5000/**"
+        ],
+        "credential-types": ["binding-secret", "x509"]
+    }
+}

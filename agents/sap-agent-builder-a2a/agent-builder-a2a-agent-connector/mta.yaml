@@ -1,0 +1,40 @@
+_schema-version: 3.3.0
+ID: baf-agent-wrapper
+version: 1.0.0
+description: "Wraps the SAP Dispute Resolution Agent, which runs on Business Agent Foundation (BAF), to use the A2A protocol"
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production
+
+modules:
+  - name: baf-agent-wrapper-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+      disk-quota: 500MB
+      memory: 250MB
+    build-parameters:
+      builder: custom
+      commands:
+        # skip postinstall during build
+        - npm ci --production --ignore-scripts
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: pab
+
+
+resources:
+  - name: pab
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: unified-agent-runtime-dev
+      service-plan: default

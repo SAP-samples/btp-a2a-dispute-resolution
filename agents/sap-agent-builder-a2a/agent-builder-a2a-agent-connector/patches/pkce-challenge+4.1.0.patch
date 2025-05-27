@@ -1,0 +1,15 @@
+diff --git a/node_modules/pkce-challenge/dist/index.node.js b/node_modules/pkce-challenge/dist/index.node.js
+index bb108cb..7f3a770 100644
+--- a/node_modules/pkce-challenge/dist/index.node.js
++++ b/node_modules/pkce-challenge/dist/index.node.js
+@@ -2,7 +2,9 @@ let crypto;
+ crypto =
+     globalThis.crypto?.webcrypto ?? // Node.js 16 REPL has globalThis.crypto as node:crypto
+         globalThis.crypto ?? // Node.js 18+ 
+-        (await import("node:crypto")).webcrypto; // Node.js 16 non-REPL
++        (async() => {
++            (await import("node:crypto")).webcrypto;
++        })(); // Node.js 16 non-REPL
+ /**
+  * Creates an array of length `size` of random bytes
+  * @param size

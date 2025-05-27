@@ -1,0 +1,43 @@
+{
+    "apiResources": [
+        {
+            "ordId": "customer.bafagentwrapper:apiResource:DisputeResolutionAgent:v0",
+            "title": "SAP Dispute Resolution Agent API",
+            "shortDescription": "API for managing disputes and analyzing business data",
+            "description": "Resolve disputes, manage business processes, and analyze data in the cloud using SAP Dispute Resolution Agent.",
+            "partOfPackage": "bafagentwrapper:package:DisputeResolution:v0",
+            "extensible": { "supported": "no", "description": "Not extensible" },
+            "version": "0.0.1",
+            "visibility": "public",
+            "releaseStatus": "beta",
+            "apiProtocol": "rest",
+            "implementationStandard": "custom",
+            "customImplementationStandard": "g:a2a:v0",
+            "resourceDefinitions": [
+                {
+                    "type": "custom",
+                    "customType": "g:agent-card:v0",
+                    "mediaType": "application/json",
+                    "url": "/.well-known/agent.json"
+                }
+            ]
+        }
+    ],
+    "vendors": [
+        {
+            "ordId": "sap:vendor:SAP:",
+            "title": "SAP"
+        }
+    ],
+    "packages": [
+        {
+            "ordId": "bafagentwrapper:package:DisputeResolution:v0",
+            "title": "SAP Dispute Resolution Package",
+            "shortDescription": "Package containing all resources for SAP Dispute Resolution Agent",
+            "description": "Includes the SAP Dispute Resolution Agent API for managing disputes and analyzing business data.",
+            "version": "0.0.1",
+            "vendor": "sap:vendor:SAP:"
+        }
+    ]
+
+}
