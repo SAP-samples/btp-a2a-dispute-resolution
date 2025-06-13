@@ -1,0 +1,10 @@
+{
+    "requires": {
+        "auth": "dummy",
+        "credentials": {
+            "AGENT_BUILDER_AGENT_CONNECTOR_HOST": "",
+            "GCP_AGENT_HOST": "",
+            "AZURE_AGENT_HOST": ""
+        }
+    }
+}
