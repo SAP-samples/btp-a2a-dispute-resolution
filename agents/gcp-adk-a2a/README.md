@@ -2,19 +2,19 @@
 
 ### Request to fetch ORD document from A2A Server
 
-*   **URL:** `https://adk-agent-a2a-server-395311854449.us-central1.run.app/open-resource-discovery/v1/documents/1`
+*   **URL:** `<service-url>/open-resource-discovery/v1/documents/1`
 *   **Method:** `GET`
 
 ### Request to fetch Agent Card from A2A Server
 
-*   **URL:** `https://adk-agent-a2a-server-395311854449.us-central1.run.app/.well-known/agent.json`
+*   **URL:** `<service-url>/.well-known/agent.json`
 *   **Method:** `GET`
 *   **Response:**
     ```json
     {
       "name": "Warehouse_Insight_Agent",
       "description": "Tracks stock movements across the warehouse and their causes in real-time.",
-      "url": "https://adk-agent-a2a-server-395311854449.us-central1.run.app",
+      "url": "<service-url>",
       "provider": {
         "organization": "GCP ADK Example",
         "url": "gcp_a2a_example.sap.com"
@@ -55,7 +55,7 @@
 
 ### Send a `tasks/send` request to the A2A Server.
 
-*   **URL:** `https://adk-agent-a2a-server-395311854449.us-central1.run.app/tasks/send`
+*   **URL:** `<service-url>`
 *   **Method:** `POST`
 *   **Body (JSON):**
     ```json
@@ -116,7 +116,7 @@ This guide provides the steps to deploy the `adk_agent` to Google Cloud Run usin
 **Prerequisites:**
 
 *   Google Cloud SDK (`gcloud` CLI) installed.
-*   A `.env` file in your project root directory containing your project ID, region, and potentially Vertex AI usage flag (e.g., `GOOGLE_CLOUD_PROJECT=your-project-id`, `GOOGLE_CLOUD_LOCATION=us-central1`, `GOOGLE_GENAI_USE_VERTEXAI=True`).
+*   A `.env` file in the `warehouse-insights-agent` directory containing your project ID, region, and potentially Vertex AI usage flag (e.g., `GOOGLE_CLOUD_PROJECT=your-project-id`, `GOOGLE_CLOUD_LOCATION=us-central1`, `GOOGLE_GENAI_USE_VERTEXAI=True`). Copy `.env.sample` to get started.
 
 ## Initial Google Cloud Setup
 
@@ -166,4 +166,4 @@ Navigate to your project's root directory in your **bash terminal**.
 
     *   `agent-service-name`: The name given to your GCP Cloud Run service. For this project it is `adk-agent-service-direct`.
 
-    `gcloud` will build the Docker image, push it to Artifact Registry, and deploy it to Cloud Run. Upon completion, it will output the **Service URL**. Copy this URL as you will need it for testing. For the latest deployment it is; `https://adk-agent-serice-direct-395311854449.us-central1.run.app`
+    `gcloud` will build the Docker image, push it to Artifact Registry, and deploy it to Cloud Run. Upon completion, it will output the **Service URL**. Copy this URL as you will need it for testing.
