@@ -1,4 +1,5 @@
 # CAP a2a-dispute-resolution
+.cdsrc.json
 _out
 *.db
 *.sqlite

@@ -3,20 +3,21 @@ import { CallbackResponse, MetadataRequest, MetadataResponse } from "./types";
 
 const ORD_DOCUMENT_PATH = "/open-resource-discovery/v1/documents/1";
 
+const { AGENT_BUILDER_AGENT_CONNECTOR_HOST, GCP_AGENT_HOST, AZURE_AGENT_HOST } = cds.env.requires.credentials;
 const ORDPointers = [
     {
         ID: "a8a630f8-cbca-4037-991b-bfb84899817d",
-        host: "platform-adoption-advisory-sce-testpab-56g0kzwc-dev-baf2d5a016e.cfapps.eu12.hana.ondemand.com",
+        host: AGENT_BUILDER_AGENT_CONNECTOR_HOST,
         provider: "SAP",
     },
     {
         ID: "6439ec3e-2d44-4c23-9f7f-2df4c57be793",
-        host: "adk-agent-a2a-server-395311854449.us-central1.run.app",
+        host: GCP_AGENT_HOST,
         provider: "Google"
     },
     {
         ID: "53a2636a-bbc4-4c04-ba24-4adc2381bb36",
-        host: "a2aazureserver-ftfpeaf7hpdegbhm.eastus2-01.azurewebsites.net",
+        host: AZURE_AGENT_HOST,
         provider: "Microsoft"
     }
 ];
