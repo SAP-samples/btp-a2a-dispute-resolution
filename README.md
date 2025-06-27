@@ -57,7 +57,6 @@ To run this project, ensure you have access to the following components:
   - Google Vertex AI Agent or Google Cloud Run
   - Azure AI Foundry Agent or Azure Web Apps
 
----
 
 ## Provisioning of Agents with A2A
 
@@ -87,12 +86,10 @@ Create an AI Foundry Agent with A2A support
 
 1. Deploy the `Dispute Email Agent` to Azure Web Apps. Follow the instructions provided in the deployment guide: [Azure Agent Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agents/azure-ai-foundry-a2a#azure-agent-a2a-server-deployment-steps)
 
----
 
 ## Deployment of Catalog (includes Agent Router as A2A Client)
 
-1. Duplicate the `.cdsrc-sample.json` as `.cdsrc.json`:  
-   [Sample Config](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agent-catalog/.cdsrc-sample.json)
+1. Duplicate the `.cdsrc-sample.json` as `.cdsrc.json`: [Sample Config](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agent-catalog/.cdsrc-sample.json)
 
 2. Add the hosts of the three agents (BAF, GCP, Azure) to the config.
 
@@ -100,20 +97,29 @@ Create an AI Foundry Agent with A2A support
    ```bash
    npm run deploy
    ```
-   Execute this command in the catalog folder:[Agent Catalog Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agent-catalog)
+   Execute this command in the catalog folder: [Agent Catalog Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agent-catalog)
 
----
 
 ## Create the Orchestrator as entry point for the scenario:
 - Define Destinations on the SAP BTP Subaccount in which BAF/Project Agent Builder is subscribed:
     - AGENT_CATALOG: Point to the ORD-Aggregator endpoint of your deployed Agent Catalog: `https://<YOUR_URL>.hana.ondemand.com/ord-aggregator`
     - AGENT_ROUTER: Point to the Agent Router endpoint of your deployed Agent Catalog: `https://<YOUR_URL>.hana.ondemand.com/a2a-router`
-   
-   >HINT: For debugging and development locally, open a tunnel (e.g., via ngrok) to your machine and point to your local CAP server (port 4005 here) by entering `<YOUR_TUNNEL>:4005/ord-aggregator` and `<YOUR_TUNNEL>:4005/a2a-router` as the destinations URLs. With this setup, the Orchestrator Agent connects to the Agent Catalog running on your machine.
+   <p float="left">
+        <img src="./docs/img/agent-destination.png" alt="Tool Agent Catalog" width="45%" />
+   </p>
 - Create Orchestrator Agent in BAF: https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agents/sap-agent-builder-a2a/agent-builder-agent-exports/orchestrator.json
-- Create `Bring-Your-Own-Tool` Tools for the Orchestrator Agent pointing to the Destinations AGENT_CATALOG and AGENT_ROUTER (screenshots of the tools and destinations set)
+    <p float="left">
+        <img src="./docs/img/agent-orchestrator.png" alt="Tool Agent Catalog" width="45%" />
+    </p>
 
----
+- Create `Bring-Your-Own-Tool` Tools for the Orchestrator Agent pointing to the Destinations AGENT_CATALOG and AGENT_ROUTER 
+    <p float="left">
+      <img src="./docs/img/tool-agent-catalog.png" alt="Tool Agent Catalog" width="45%" />
+      <img src="./docs/img/tool-agent-router.png" alt="Tool Agent Router" width="45%" />
+    </p>
+
+
+>HINT: For debugging and development locally, open a tunnel (e.g., via ngrok) to your machine and point to your local CAP server (port 4005 here) by entering `<YOUR_TUNNEL>:4005/ord-aggregator` and `<YOUR_TUNNEL>:4005/a2a-router` as the destinations URLs. With this setup, the Orchestrator Agent connects to the Agent Catalog running on your machine.
 
 ## Develop/Run locally (Agent Catalog):
 1. Ensure your machine supports TypeScript:
