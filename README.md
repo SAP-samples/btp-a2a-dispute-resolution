@@ -64,7 +64,7 @@ To run this project, ensure you have access to the following components:
 2.  [Deployment of Agent Catalog](docs/setup.md#deployment-of-agent-catalog)
 3.  [Create the Orchestrator as entry point for the scenario](docs/setup.md#create-the-orchestrator-as-entry-point-for-the-scenario)
 4.  [Develop/Run locally](docs/setup.md#developrun-locally)
-5.  [Try It Out](setup.md#try-it-out)
+5.  [Try It Out](docs/setup.md#try-it-out)
 
 ## Known Issues
 No known issues.

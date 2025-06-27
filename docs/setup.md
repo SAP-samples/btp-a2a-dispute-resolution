@@ -109,8 +109,5 @@ Ali from our customer XStore has just opened up a Dispute Case on their latest o
 ```
 <p float="left">
    <img src="./img/agent-try.png" alt="Try" width="45%" />
-</p>
-
-<p float="left">
    <img src="./img/agent-flow.png" alt="Flow" width="45%" />
 </p>
