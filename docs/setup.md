@@ -9,7 +9,7 @@
    [`.cdsrc.json`](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agents/sap-agent-builder-a2a/agent-builder-a2a-agent-connector/.cdsrc.json)
 
     <p float="left">
-        <img src="./docs/img/agent-id.png" alt="Agent ID" width="45%" />
+        <img src="./img/agent-id.png" alt="Agent ID" width="45%" />
    </p>
 
 3. Deploy the Agent Connector as an MTA to your SAP BTP Subaccount (Cloud Foundry Runtime):  
@@ -50,17 +50,17 @@ This includes Agent Router as A2A Client
     - AGENT_CATALOG: Point to the ORD-Aggregator endpoint of your deployed Agent Catalog: `https://<YOUR_URL>.hana.ondemand.com/ord-aggregator`
     - AGENT_ROUTER: Point to the Agent Router endpoint of your deployed Agent Catalog: `https://<YOUR_URL>.hana.ondemand.com/a2a-router`
    <p float="left">
-        <img src="./docs/img/agent-destination.png" alt="Tool Agent Catalog" width="45%" />
+        <img src="./img/agent-destination.png" alt="Tool Agent Catalog" width="45%" />
    </p>
 - Create Orchestrator Agent in BAF: https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agents/sap-agent-builder-a2a/agent-builder-agent-exports/orchestrator.json
     <p float="left">
-        <img src="./docs/img/agent-orchestrator.png" alt="Tool Agent Catalog" width="45%" />
+        <img src="./img/agent-orchestrator.png" alt="Tool Agent Catalog" width="45%" />
     </p>
 
 - Create `Bring-Your-Own-Tool` Tools for the Orchestrator Agent pointing to the Destinations AGENT_CATALOG and AGENT_ROUTER 
     <p float="left">
-      <img src="./docs/img/tool-agent-catalog.png" alt="Tool Agent Catalog" width="45%" />
-      <img src="./docs/img/tool-agent-router.png" alt="Tool Agent Router" width="45%" />
+      <img src="./img/tool-agent-catalog.png" alt="Tool Agent Catalog" width="45%" />
+      <img src="./img/tool-agent-router.png" alt="Tool Agent Router" width="45%" />
     </p>
 
 
