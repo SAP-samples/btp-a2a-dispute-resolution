@@ -9,6 +9,7 @@
         "node": "22.x.x"
     },
     "dependencies": {
+        "@a2a-js/sdk": "^0.2.2",
         "@sap/cds": "^8",
         "cors": "^2.8.5",
         "express": "^4",

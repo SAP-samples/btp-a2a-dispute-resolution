@@ -81,7 +81,7 @@ class AdkWarehouseAgentExecutor(AgentExecutor):
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         if not context.current_task:
             updater.submit()
-        updater.start_work(message_text="Processing warehouse insight query...")
+        updater.start_work()
         print(f"ADK Exec: Task {context.task_id} query: \"{user_query_text[:60]}...\"")
 
         try:
