@@ -47,15 +47,14 @@ class AdkWarehouseAgentExecutor(AgentExecutor):
         )
         print(f"AdkWarehouseAgentExecutor initialized for ADK agent: {self._agent.name}")
 
-    def _get_or_create_adk_session(self, a2a_context_id: str) -> ADKSession:
+    async def _get_or_create_adk_session(self, a2a_context_id: str) -> ADKSession:
         app_name = self.runner.app_name
-        user_id = "a2a_user" # Fixed user_id
-        session = self.runner.session_service.get_session(
+        user_id = "a2a_user"
+        session = await self.runner.session_service.get_session(
             app_name=app_name, user_id=user_id, session_id=a2a_context_id
         )
         if not session:
-            # print(f"Creating new ADK session for A2A context ID: {a2a_context_id}")
-            session = self.runner.session_service.create_session(
+            session = await self.runner.session_service.create_session(
                 app_name=app_name, user_id=user_id, session_id=a2a_context_id
             )
         return session
@@ -68,31 +67,31 @@ class AdkWarehouseAgentExecutor(AgentExecutor):
         if not context.message:
             print("ADK Executor Error: No message in A2A context.")
             if context.current_task:
-                TaskUpdater(event_queue, context.task_id, context.context_id).failed("Error: No input message.")
+                await TaskUpdater(event_queue, context.task_id, context.context_id).failed("Error: No input message.")
             return
 
         user_query_text = context.get_user_input()
         if not user_query_text:
             print("ADK Executor Error: No text input in A2A message.")
             if context.current_task:
-                TaskUpdater(event_queue, context.task_id, context.context_id).failed("Error: No text input.")
+                await TaskUpdater(event_queue, context.task_id, context.context_id).failed("Error: No text input.")
             return
 
         updater = TaskUpdater(event_queue, context.task_id, context.context_id)
         if not context.current_task:
-            updater.submit()
-        updater.start_work()
+            await updater.submit()
+        await updater.start_work()
         print(f"ADK Exec: Task {context.task_id} query: \"{user_query_text[:60]}...\"")
 
         try:
-            adk_session = self._get_or_create_adk_session(context.context_id)
+            adk_session = await self._get_or_create_adk_session(context.context_id)
             adk_user_message = convert_a2a_parts_to_genai_content(context.message.parts)
 
             final_adk_event_content: genai_types.Content | None = None
             intermediate_update_sent = False
 
             async for adk_event in self.runner.run_async(
-                session_id=adk_session.id,
+                session_id=adk_session.id, # This will now work correctly
                 user_id=adk_session.user_id,
                 new_message=adk_user_message,
             ):
@@ -100,7 +99,7 @@ class AdkWarehouseAgentExecutor(AgentExecutor):
                     final_adk_event_content = adk_event.content
                     break
                 elif adk_event.content and adk_event.content.parts and not intermediate_update_sent:
-                    updater.update_status(TaskState.working, message=updater.new_agent_message(
+                    await updater.update_status(TaskState.working, message=updater.new_agent_message(
                         convert_adk_text_output_to_a2a_parts("Agent is thinking..."))
                     )
                     intermediate_update_sent = True
@@ -125,18 +124,18 @@ class AdkWarehouseAgentExecutor(AgentExecutor):
             if final_agent_output_text:
                 print(f"ADK Exec: Task {context.task_id} completed. Output: '{final_agent_output_text[:100]}...'")
                 a2a_response_parts = convert_adk_text_output_to_a2a_parts(final_agent_output_text)
-                updater.add_artifact(parts=a2a_response_parts, name="warehouse_insight_response")
-                updater.complete(message_text="Warehouse insight ready.")
+                await updater.add_artifact(parts=a2a_response_parts, name="warehouse_insight_response")
+                await updater.complete(message_text="Warehouse insight ready.")
             else:
                 print(f"ADK Exec Error: No final output from ADK agent for task {context.task_id}.")
-                updater.failed("Agent did not produce a final output.")
+                await updater.failed("Agent did not produce a final output.")
 
         except Exception as e:
             print(f"ADK Exec Error: Exception for task {context.task_id}: {str(e)}")
-            updater.failed(f"An unexpected error occurred: {str(e)}")
+            await updater.failed(f"An unexpected error occurred: {str(e)}")
 
     async def cancel(self, context: RequestContext, event_queue: EventQueue) -> None:
         print(f"ADK Exec: Cancel requested for task {context.task_id}, marking as CANCELED.")
-        TaskUpdater(event_queue, context.task_id, context.context_id).update_status(
+        await TaskUpdater(event_queue, context.task_id, context.context_id).update_status(
             TaskState.canceled, final=True, message_text="Task cancellation requested."
         )
