@@ -46,6 +46,26 @@ XStore disputes an invoice from Cymbal Direct after receiving a short shipment o
   - [azure-ai-foundry-a2a](/agents/azure-ai-foundry-a2a/): Agent deployed on Azure based on A2A and exposed Agent Card via Open Resource Discovery (ORD).
       - `dispute-email-agent`: Agent that creates email drafts according to specific dispute policies for dispute resolution.
 
+## Prerequisites
+
+To run this project, ensure you have access to the following components:
+
+- SAP BTP Subaccount
+- Cloud Foundry Runtime enabled
+- Business Agent Foundation (BAF) / Project Agent Builder subscription
+- One or more A2A-enabled agent runtimes:
+  - Google Vertex AI Agent or Google Cloud Run
+  - Azure AI Foundry Agent or Azure Web Apps
+
+
+## Setup Instructions
+
+1.  [Provisioning of A2A Agents](docs/setup.md#provisioning-of-a2a-agents)
+2.  [Deployment of Agent Catalog](docs/setup.md#deployment-of-agent-catalog)
+3.  [Create the Orchestrator as entry point for the scenario](docs/setup.md#create-the-orchestrator-as-entry-point-for-the-scenario)
+4.  [Develop/Run locally](docs/setup.md#developrun-locally)
+5.  [Try It Out](docs/setup.md#try-it-out)
+
 ## Known Issues
 No known issues.
 
