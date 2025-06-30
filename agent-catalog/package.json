@@ -30,7 +30,8 @@
         "watch": "cds-tsx w --port 4005",
         "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then patch-package && test -L node_modules/@types/sap__cds || ln -s ../@cap-js/cds-types node_modules/@types/sap__cds; fi",
         "build": "mbt build",
-        "deploy": "mbt build && cf deploy mta_archives/*"
+        "deploy": "mbt build && cf deploy mta_archives/*",
+        "deploy-only": "cf deploy mta_archives/*"
     },
     "imports": {
         "#cds-models/*": "./@cds-models/*/index.js"
