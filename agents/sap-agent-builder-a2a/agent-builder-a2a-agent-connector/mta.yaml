@@ -8,7 +8,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npx cds build --production
+        - cds build --production
 
 modules:
   - name: baf-agent-wrapper-srv

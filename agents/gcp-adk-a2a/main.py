@@ -76,7 +76,7 @@ def create_app():
         task_store=InMemoryTaskStore(),
         push_notifier=InMemoryPushNotifier(client_for_notifier),
     )
-    current_agent_card = get_a2a_agent_card(public_base_url=public_base_url)
+    current_agent_card = get_a2a_agent_card(public_base_url="https://adk-agent-service-direct-395311854449.us-central1.run.app/") # hardcoded as quick fix;
 
     a2a_sdk_app_config = A2AStarletteApplication(
         agent_card=current_agent_card,

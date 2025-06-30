@@ -9,7 +9,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npx cds build --production
+        - cds build --production
 modules:
   - name: joule-catalog-srv
     type: nodejs

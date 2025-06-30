@@ -199,3 +199,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+local/
+docs/*.drawio.*

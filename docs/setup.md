@@ -17,6 +17,8 @@
    ```
    Run this command in the connector folder: [Agent Connector Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agents/sap-agent-builder-a2a/agent-builder-a2a-agent-connector)
 
+>Note: Make sure `cds` is installed before deployment: ```npm i -g @sap/cds-dk```
+
 ### Google Cloud 
 
 Deploy the `Warehouse Insight Agent` to Google Cloud Run. Follow the instructions provided in the deployment guide: [Google Cloud Agent Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agents/gcp-adk-a2a#adk-agent-a2a-server-deployment-steps)
@@ -43,6 +45,7 @@ This includes Agent Router as A2A Client
    ```
    Execute this command in the catalog folder: [Agent Catalog Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agent-catalog)
 
+>Note: Make sure `cds` is installed before deployment: ```npm i -g @sap/cds-dk```
 
 ## Create the Orchestrator as entry point for the scenario
 - Define Destinations on the SAP BTP Subaccount in which BAF/Project Agent Builder is subscribed:
