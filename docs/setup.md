@@ -117,7 +117,6 @@ Ali from our customer XStore has just opened up a Dispute Case on their latest o
 Provide confirmation to use a remote agetns via A2A protocol. Confirm with "Yes" to proceed. 
 
 The Orchestrator Agent will identify the required agents from the Agent Catalog, create a task plan for orchestration, and initiate the dispute resolution process. 
-The Dispute Resolution Agent will confirm the invoice and shipment data from SAP S/4HANA, while the Warehouse Insights Agent will analyze logistics and retrieve a packaging slip. Finally, the Dispute Email Agent will create an email draft according to the dispute policy.
 
 As an outcome, you will receive a confirmation of the dispute resolution creation and a draft email to the customer.
 
