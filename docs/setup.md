@@ -108,7 +108,8 @@ This includes Agent Router as A2A Client
 Start a new chat for the Orchestrator Agent and ask:
 
 ```
-Ali from our customer XStore has just opened up a Dispute Case on their latest order. Please resolve it and provide a draft email to the customer.
+Ali from our customer XStore has just opened up a Dispute Case on their latest order. 
+Please resolve it and provide a draft email to the customer.
 ```
 <p float="left">
    <img src="./img/agent-try.png" alt="Try" width="45%" />
@@ -127,10 +128,152 @@ As an outcome, you will receive a confirmation of the dispute resolution creatio
 ### Understand what happenes behind the scenes
 If you open the 'Trace Diagram' (highlited in the screeshot below) you can see the flow of the agents and their interactions.
 
-
-<p float="left"><img src="./img/agent-trace.png" alt="Flow" width="45%" /></p>
+<p float="left"><img src="./img/agent-trace.png" width="45%" /></p>
 <p float="left"><img src="./img/agent-flow.png" alt="Flow" width="45%" /></p>
 
+Before the orchecstration agent start distributing tasks to the agents, it first checks the Agent Catalog for available agents. 
+>Note: in the flow diagram if you click on the arrow between the Orchestrator Agent and the Agent Catalog, you can see the response of the Agent Catalog.
+
+<p float="left">
+   <img src="./img/agent-catalog.png" alt="Agent Catalog" width="45%" />
+</p>
+
+Agent catalog will return list of following agents:
+- SAP Dispute Resolution Agent running on Agent Builder 
+- Warehouse Insights Agent running on Google Cloud, built with Agent Development Kit (ADK)
+- Azure Dispute Policy and Email Agent running on Azure 
+
+<details>
+<summary>Agent Catalog response</summary>
+<pre><code>
+{
+  "catalog": [
+    {
+      "ordVersion": "1.9",
+      "ordDocUrl": "https://platform-adoption-advisory-sce-testpab-56g0kzwc-dev-baf2d5a016e.cfapps.eu12.hana.ondemand.com/open-resource-discovery/v1/documents/1",
+      "provider": "SAP",
+      "agentCardUrl": "https://platform-adoption-advisory-sce-testpab-56g0kzwc-dev-baf2d5a016e.cfapps.eu12.hana.ondemand.com/.well-known/agent.json",
+      "agent": {
+        "name": "SAP Dispute Resolution Agent",
+        "description": "Resolve disputes, manage business processes, and analyze data in the cloud",
+        "url": "https://platform-adoption-advisory-sce-testpab-56g0kzwc-dev-baf2d5a016e.cfapps.eu12.hana.ondemand.com/a2a-service",
+        "version": "0.0.1",
+        "defaultInputModes": ["text/plain"],
+        "defaultOutputModes": ["text/plain", "application/html"],
+        "capabilities": {
+          "streaming": false,
+          "callback": true
+        },
+        "skills": [
+          {
+            "id": "dispute-management",
+            "name": "Dispute Management",
+            "description": "Manage and resolve business disputes efficiently",
+            "tags": ["dispute", "management", "resolution"],
+            "examples": [
+              "list all open dispute cases",
+              "resolve dispute case #12345",
+              "provide details of dispute case #67890"
+            ],
+            "outputModes": ["text/plain", "application/html"]
+          },
+          {
+            "id": "business-data-cloud-analysis",
+            "name": "Business Data Cloud Analysis",
+            "description": "Analyze business data using cloud-based tools",
+            "tags": ["data analysis", "business", "cloud"],
+            "examples": [
+              "analyze financial data for the past quarter",
+              "generate a report on sales performance metrics",
+              "compare customer engagement data across regions"
+            ],
+            "outputModes": ["application/html", "text/csv"]
+          }
+        ]
+      }
+    },
+    {
+      "ordVersion": "1.9",
+      "ordDocUrl": "https://adk-agent-service-direct-395311854449.us-central1.run.app//open-resource-discovery/v1/documents/1",
+      "provider": "Google",
+      "agentCardUrl": "https://adk-agent-service-direct-395311854449.us-central1.run.app//.well-known/agent.json",
+      "agent": {
+        "capabilities": {
+          "pushNotifications": false,
+          "streaming": false
+        },
+        "defaultInputModes": ["text/plain"],
+        "defaultOutputModes": ["text/plain"],
+        "description": "Tracks stock movements across the warehouse and their causes in real-time.",
+        "name": "Warehouse_Insight_Agent",
+        "skills": [
+          {
+            "description": "Tracks stock movements across the warehouse and their causes in real-time.",
+            "examples": [
+              "why did the stock level for Item X drop this morning?",
+              "which orders caused stock changes for Item Y in the last 24 hours?"
+            ],
+            "id": "warehouse-insight-query",
+            "name": "Warehouse Insight Query Tool",
+            "tags": ["warehouse", "stock", "inventory", "data query", "shipping"]
+          }
+        ],
+        "url": "https://adk-agent-service-direct-395311854449.us-central1.run.app/",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "ordVersion": "1.9",
+      "ordDocUrl": "https://a2aazureserver2-ddatapg8auhzbccf.eastus2-01.azurewebsites.net/open-resource-discovery/v1/documents/1",
+      "provider": "Microsoft",
+      "agentCardUrl": "https://a2aazureserver2-ddatapg8auhzbccf.eastus2-01.azurewebsites.net/.well-known/agent.json",
+      "agent": {
+        "capabilities": {
+          "pushNotifications": false,
+          "streaming": false
+        },
+        "defaultInputModes": ["text/plain"],
+        "defaultOutputModes": ["text/plain"],
+        "description": "Analyzes dispute and using provided additional information, drafts a response email.",
+        "name": "Dispute_Email_Agent",
+        "skills": [
+          {
+            "description": "Generates an email response for a given dispute shared by a customer.",
+            "examples": [
+              "Generate a response for dispute by Customer CUST001, order ORD0001, where only 90 of the ordered 100 items were delivered."
+            ],
+            "id": "dispute_email_generation",
+            "name": "Dispute Email Generation Tool",
+            "tags": ["dispute resolution", "customer service", "dispute email", "email generation"]
+          }
+        ],
+        "url": "https://a2aazureserver2-ddatapg8auhzbccf.eastus2-01.azurewebsites.net/",
+        "version": "0.0.1"
+      }
+    }
+  ]
+}
+</code></pre>
+
+</details>
+<br>
+
+Orchestrator Agent will perform following steps:
+
+1. first call the dispote resolution agent to confirm the invoice and shipment data from SAP S/4HANA and confirm the expected 1,000 units shipped
+   <p float="left">
+      <img src="./img/agent-sap-dispute.png" alt="Try" width="45%" />
+   </p>
+
+2. Call the warehouse insights agent to analyze logistics and retrieve a packaging slip showing only 900 t-shirts shipped
+   <p float="left">
+      <img src="./img/agent-google.png" alt="Try" width="45%" />
+   </p>
+
+3. Call the dispute policy and email agent to retrieve communication history and create an email draft to the customer according to the dispute policy
+   <p float="left">
+      <img src="./img/agent-azure.png" alt="Try" width="45%" />
+   </p>
 
 ## Demo Video
 Watch the demo video to see the scenario in action.
