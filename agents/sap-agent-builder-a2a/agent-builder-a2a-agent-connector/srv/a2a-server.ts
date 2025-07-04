@@ -151,39 +151,8 @@ async function* bafAgentLogic(context: TaskContext): AsyncGenerator<TaskYieldUpd
                 break;
         }
         // count how often state "unknown" and break after 60 seconds or 12 times
-        await sleep(5000);
+        await sleep(1500);
     }
-}
-
-// 1. Define your agent's logic as a TaskHandler
-async function* myAgentLogic(context: TaskContext): AsyncGenerator<TaskYieldUpdate> {
-    console.log(`Handling task: ${context.task.id}`);
-    yield {
-        state: "working",
-        message: { role: "agent", parts: [{ text: "Processing...", type: "text" }] }
-    };
-
-    // Simulate work...
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    if (context.isCancelled()) {
-        console.log("Task cancelled!");
-        yield { state: "canceled" };
-        return;
-    }
-
-    // Yield an artifact
-    yield {
-        name: "result.txt",
-        //mimeType: "text/plain",
-        parts: [{ text: `Task ${context.task.id} completed.`, type: "text" }]
-    };
-
-    // Yield final status
-    yield {
-        state: "completed",
-        message: { role: "agent", parts: [{ text: "Done!", type: "text" }] }
-    };
 }
 
 async function sleep(ms: number) {

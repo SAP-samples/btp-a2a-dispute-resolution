@@ -1,5 +1,5 @@
 @protocol: ['rest']
-@path    : '/a2a-service'
+@path    : '/'
 service A2AServerService {
 
 }
