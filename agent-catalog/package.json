@@ -1,5 +1,5 @@
 {
-    "name": "joule-catalog",
+    "name": "agent-catalog",
     "version": "1.0.0",
     "description": "Runs two services: ORDAggregator to list the Agents Catalog, and A2ARouter to call Agents as an A2A Client",
     "repository": "",
@@ -29,9 +29,9 @@
         "start": "cds-serve",
         "watch": "cds-tsx w --port 4005",
         "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then patch-package && test -L node_modules/@types/sap__cds || ln -s ../@cap-js/cds-types node_modules/@types/sap__cds; fi",
-        "build": "mbt build",
-        "deploy": "mbt build && cf deploy mta_archives/*",
-        "deploy-only": "cf deploy mta_archives/*"
+        "build": "mbt build -t mta_archives --mtar agent-catalog.tar",
+        "deploy-only": "cf deploy mta_archives/agent-catalog.tar",
+        "deploy": "npm run build && npm run deploy"
     },
     "imports": {
         "#cds-models/*": "./@cds-models/*/index.js"

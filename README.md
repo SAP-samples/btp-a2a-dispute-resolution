@@ -7,9 +7,17 @@
 This repository demonstrates an end-to-end scenario where multiple organizations collaborate through domain-specific AI agents to resolve a customer dispute.
 The agents use an open [Agent-to-Agent (A2A)](https://github.com/google/A2A) communication protocol and [Open Resource Discovery (ORD)](https://github.com/open-resource-discovery/specification) to dynamically discover each other's capabilities and collaborate on complex tasks that exceed the scope of a single agent.
 
+## Architecture
+
+![Architecture Diagram](./docs/architecture.svg)
+> [!NOTE]
+> This architecture illustrates AI agents integrated via point-to-point connections, as currently implemented. Alternatively, a centralized orchestrator per platform could be introduced.
+
 ## Scenario
 
-XStore disputes an invoice from Cymbal Direct after receiving a short shipment of 900 t-shirts instead of the expected 1,000. Vicky, an employee of Cymbal Direct, uses **Joule** to resolve the issue with the help of several backend agents representing different organizations and capabilities.
+XStore disputes an invoice from Cymbal Direct after receiving a short shipment of 900 t-shirts instead of the expected 1,000. Vicky, an employee of Cymbal Direct, uses **Joule** to resolve the issue with the help of several backend agents representing different organizations and capabilities. Watch the demo video to see the scenario in action:
+
+<video src="https://video.sap.com/embed/secure/iframe/entryId/1_kcgq0nd4/uiConfId/54310412/st/0" controls preload></video>
 
 ### Scenario Breakdown
 
@@ -24,11 +32,25 @@ XStore disputes an invoice from Cymbal Direct after receiving a short shipment o
 - **Response to User**:
   - Confirmation of dispute resolution creation and customer email.
 
-## Architecture
+## Prerequisites
 
-![Architecture Diagram](./docs/architecture.svg)
-> [!NOTE]
-> This architecture illustrates AI agents integrated via point-to-point connections, as currently implemented. Alternatively, a centralized orchestrator per platform could be introduced.
+To run this project, ensure you have access to the following components:
+
+- SAP BTP Subaccount
+- Cloud Foundry Runtime enabled
+- Business Agent Foundation (BAF) / Project Agent Builder subscription
+- One or more A2A-enabled agent runtimes:
+  - Google Vertex AI Agent or Google Cloud Run
+  - Azure AI Foundry Agent or Azure Web Apps
+
+
+## Walkthrough & Hands-on Tutorial
+
+1.  [Provision A2A Agents](docs/setup.md#provision-a2a-agents)
+2.  [Deploy the Agent Catalog](docs/setup.md#deploy-the-agent-catalog)
+3.  [Set up the Orchestrator as Scenario Entry Point](docs/setup.md#set-up-the-orchestrator-as-scenario-entry-point)
+4.  [Develop & Run locally](docs/setup.md#develop--run-locally)
+5.  [Test It Yourself](docs/setup.md#test-it-yourself)
 
 ## Repository Structure
 ### [agent-catalog](/agent-catalog/): Agent discovery and routing services 
@@ -45,27 +67,6 @@ XStore disputes an invoice from Cymbal Direct after receiving a short shipment o
       - `warehouse-insights-agent`: Tracks stock movements across the warehouse and their causes in real-time.
   - [azure-ai-foundry-a2a](/agents/azure-ai-foundry-a2a/): Agent deployed on Azure based on A2A and exposed Agent Card via Open Resource Discovery (ORD).
       - `dispute-email-agent`: Agent that creates email drafts according to specific dispute policies for dispute resolution.
-
-## Prerequisites
-
-To run this project, ensure you have access to the following components:
-
-- SAP BTP Subaccount
-- Cloud Foundry Runtime enabled
-- Business Agent Foundation (BAF) / Project Agent Builder subscription
-- One or more A2A-enabled agent runtimes:
-  - Google Vertex AI Agent or Google Cloud Run
-  - Azure AI Foundry Agent or Azure Web Apps
-
-
-## Setup Instructions
-
-1.  [Provisioning of A2A Agents](docs/setup.md#provisioning-of-a2a-agents)
-2.  [Deployment of Agent Catalog](docs/setup.md#deployment-of-agent-catalog)
-3.  [Create the Orchestrator as entry point for the scenario](docs/setup.md#create-the-orchestrator-as-entry-point-for-the-scenario)
-4.  [Develop/Run locally](docs/setup.md#developrun-locally)
-5.  [Try It Out](docs/setup.md#try-it-out)
-6.  [Demo Video](docs/setup.md#demo-video)
 
 ## Known Issues
 No known issues.

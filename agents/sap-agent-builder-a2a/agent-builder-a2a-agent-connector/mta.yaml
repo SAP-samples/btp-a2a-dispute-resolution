@@ -1,5 +1,5 @@
 _schema-version: 3.3.0
-ID: baf-agent-wrapper
+ID: sap-agent-builder-a2a-agent-connector
 version: 1.0.0
 description: "Wraps the SAP Dispute Resolution Agent, which runs on Business Agent Foundation (BAF), to use the A2A protocol"
 parameters:
@@ -11,7 +11,7 @@ build-parameters:
         - cds build --production
 
 modules:
-  - name: baf-agent-wrapper-srv
+  - name: sap-agent-builder-a2a-agent-connector-srv
     type: nodejs
     path: gen/srv
     parameters:
