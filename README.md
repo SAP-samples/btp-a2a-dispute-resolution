@@ -15,7 +15,9 @@ The agents use an open [Agent-to-Agent (A2A)](https://github.com/google/A2A) com
 
 ## Scenario
 
-XStore disputes an invoice from Cymbal Direct after receiving a short shipment of 900 t-shirts instead of the expected 1,000. Vicky, an employee of Cymbal Direct, uses **Joule** to resolve the issue with the help of several backend agents representing different organizations and capabilities. Watch the demo video to see the scenario in action:
+XStore disputes an invoice from Cymbal Direct after receiving a short shipment of 900 t-shirts instead of the expected 1,000. Vicky, an employee of Cymbal Direct, uses **Joule** to resolve the issue with the help of several backend agents representing different organizations and capabilities.
+
+Watch the demo video to see the scenario in action:
 
 [![Watch the video](./docs/img/demo.png)](https://video.sap.com/embed/secure/iframe/entryId/1_kcgq0nd4/uiConfId/54310412/st/0)
 
