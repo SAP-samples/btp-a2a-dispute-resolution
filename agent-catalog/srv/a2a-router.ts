@@ -13,8 +13,6 @@ import {
     A2AClient,
     TextPart
 } from "@a2a-js/sdk";
-import { A2AClient as A2AClientDeprecated } from "./vendor/a2a/client/client.js";
-import { Task as TaskDeprecated, TaskSendParams, TextPart as TextPartDeprecated } from "./vendor/a2a/schema.js";
 import { CallbackRequest, CallbackResponse, MetadataRequest, MetadataResponse } from "./types.js";
 
 const { uuid } = cds.utils;
@@ -56,14 +54,9 @@ export default class A2ARouterService extends cds.ApplicationService {
         for (const entry of (await service.send("listAgentsCatalog")).catalog) {
             if (entry.agent.name === agentName) {
                 const url = entry.agent.url;
-                if (url.includes("hana.ondemand")) {
-                    // workaround for now since BAF-wrapper uses deprecated A2A Server implementation
-                    const response = await triggerA2ADeprecated({ url, task });
-                    return { response };
-                } else {
-                    const response = await triggerA2A({ url, task });
-                    return { response };
-                }
+                const response = await triggerA2A({ url, task });
+                return { response };
+                
             }
         }
         // curious if the Orchestrator will provide the correct Agent name
@@ -133,29 +126,6 @@ const triggerA2A = async ({ url, task }: { url: string; task: string }): Promise
         }
     } catch (error) {
         console.error("A2A Client Communication Error:", error);
-        return "No solution available with this tool, please try another.";
-    }
-};
-
-const triggerA2ADeprecated = async ({ url, task }: { url: string; task: string }): Promise<string> => {
-    const client = new A2AClientDeprecated(url);
-    try {
-        // Send a simple task (pass only params)
-        const taskId = uuid();
-        const sendParams: TaskSendParams = {
-            id: taskId,
-            message: { role: "user", parts: [{ text: task, type: "text" }] }
-        };
-        // Method now returns Task | null directly
-        const taskResult: TaskDeprecated | null = await client.sendTask(sendParams);
-        console.log("Send Task Result:", JSON.stringify(taskResult));
-
-        // get artifact or messages result
-        const artifactResult = (taskResult?.artifacts?.[0]?.parts?.[0] as TextPartDeprecated).text;
-
-        return artifactResult ? artifactResult : "No solution available with this tool, please try another.";
-    } catch (error) {
-        console.error("A2A Client Error:", error);
         return "No solution available with this tool, please try another.";
     }
 };

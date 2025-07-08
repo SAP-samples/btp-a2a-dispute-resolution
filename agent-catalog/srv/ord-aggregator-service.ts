@@ -38,7 +38,7 @@ export default class ORDAggregator extends cds.ApplicationService {
         const catalog = [];
         for (const ordPointer of ORDPointers) {
             if (ordPointer.host) {
-                const ordDocUrl = `https://${ordPointer.host}${ORD_DOCUMENT_PATH}`;
+                const ordDocUrl = `${ordPointer.host}${ORD_DOCUMENT_PATH}`;
 
                 try {
                     const ordSpec = await (await fetch(ordDocUrl)).json();
@@ -46,8 +46,9 @@ export default class ORDAggregator extends cds.ApplicationService {
                         // find url of Agent Card
                         for (const resourceDefinition of resource.resourceDefinitions) {
                             if (resourceDefinition.customType && resourceDefinition.customType.includes("agent-card")) {
-                                const agentCardUrl = `https://${ordPointer.host}${resourceDefinition.url}`;
-                                const agentCard = await (await fetch(agentCardUrl)).json();
+                                const agentCardUrl = `${ordPointer.host}${resourceDefinition.url}`;
+                                const agentCardRaw = await fetch(agentCardUrl)
+                                const agentCard = await agentCardRaw.json();
                                 delete agentCard.provider;
                                 delete agentCard.authentication;
 

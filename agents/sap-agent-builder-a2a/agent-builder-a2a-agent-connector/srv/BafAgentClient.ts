@@ -1,19 +1,18 @@
-import cds, { uuid } from "@sap/cds";
-import { AgentClient, TokenFetching } from "./vendor/baf/AgentClient";
-import { ExecutionEventBus, RequestContext, TaskArtifactUpdateEvent, TaskState, TaskStatusUpdateEvent } from "@a2a-js/sdk";
+import cds from "@sap/cds";
+import { AgentClient, TokenFetching } from "./baf/AgentClient";
+import { ExecutionEventBus, RequestContext, Task, TaskArtifactUpdateEvent, TaskState, TaskStatusUpdateEvent } from "@a2a-js/sdk";
 
-const baf = cds.env.requires.baf.credentials; // locally, bind baf before for this line to work
-const BAF_API_BASE_URL = baf.service_urls.agent_api_url;
+const baf = cds.env.requires.baf; // locally, bind baf before for this line to work
 const AGENT_ID = baf.agentId;
-const { clientid, clientsecret, url } = baf.uaa;
 
 export class BAFAgentClient {
     private tokenFetcher: TokenFetching;
     private agentClient: AgentClient;
 
     constructor() {
-        this.tokenFetcher = new TokenFetching(`${url}/oauth2/token`, clientid, clientsecret);
-        this.agentClient = new AgentClient(this.tokenFetcher, baf.service_urls.agent_api_url);
+        const { clientId, clientSecret, tokenUrl, apiUrl } = baf.credentials;
+        this.tokenFetcher = new TokenFetching(`${tokenUrl}`, clientId, clientSecret);
+        this.agentClient = new AgentClient(this.tokenFetcher, apiUrl);
         
     }
 
@@ -35,8 +34,9 @@ export class BAFAgentClient {
         return { chatId, historyId: startChatResponse.data.historyId };
     }
 
-    async triggerStatusUpdate(chatId: string, historyId: string ,requestContext: RequestContext, eventBus: ExecutionEventBus) {
-        const { taskId, contextId } = requestContext;
+    async triggerStatusUpdate(task: Task, eventBus: ExecutionEventBus) {
+        const {id: taskId, contextId, metadata} = task;
+        const { chatId, historyId } = metadata as { chatId: string; historyId: string };
         
         const client = this.agentClient.createClient();
         while (true) {
@@ -68,7 +68,7 @@ export class BAFAgentClient {
                             message: {
                                 kind: "message",
                                 role: "agent",
-                                messageId: uuid(),
+                                messageId: cds.utils.uuid(),
                                 parts: [{ kind: "text", text: agentTraces || "No thoughts yet" }],
                                 taskId: taskId,
                                 contextId: contextId
@@ -113,7 +113,7 @@ export class BAFAgentClient {
                             message: {
                                 kind: "message",
                                 role: "agent",
-                                messageId: uuid(),
+                                messageId: cds.utils.uuid(),
                                 taskId: taskId,
                                 contextId: contextId,
                                 parts: []
@@ -136,7 +136,7 @@ export class BAFAgentClient {
         
     }
 
-    createStatusUpdateEvent(state: TaskState, taskId, contextId): TaskStatusUpdateEvent {
+    createStatusUpdateEvent(state: TaskState, taskId: string, contextId: string): TaskStatusUpdateEvent {
        return {
             kind: "status-update",
                 taskId,
@@ -147,20 +147,6 @@ export class BAFAgentClient {
                 },
                 final: false 
         }
-    }
-
-    async getThread(id: string) {
-        const token = await this.tokenFetcher.getToken();
-        const response = await fetch(
-            `${BAF_API_BASE_URL}/api/agent-controller/v1/Agents(${AGENT_ID})/threads(${id})?$expand=messages`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-        return await response.json();
     }
 
     async getChat(chatId: string) {

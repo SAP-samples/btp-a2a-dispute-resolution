@@ -9,6 +9,9 @@ cds.on("bootstrap", (app: Express) => {
     const requestHandler = new DefaultRequestHandler(agentCard, taskStore, agentExecutor);
     const appBuilder = new A2AExpressApp(requestHandler);
     app = appBuilder.setupRoutes(app);
+    app.get("/open-resource-discovery/v1/documents/1", (_, res) => {
+        res.redirect("/ord/v1/documents/ord-document")
+      })
 });
 
 const vcap = process.env.VCAP_APPLICATION;

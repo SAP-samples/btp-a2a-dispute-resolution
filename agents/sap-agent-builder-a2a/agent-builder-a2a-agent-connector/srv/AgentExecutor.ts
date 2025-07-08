@@ -18,7 +18,7 @@ export class BAFAgentExecutor implements AgentExecutor {
 
     async execute(requestContext: RequestContext, eventBus: ExecutionEventBus): Promise<void> {
         const userMessage = requestContext.userMessage;
-        const existingTask = requestContext.task;
+        let existingTask = requestContext.task;
 
         // Determine IDs for the task and context, from requestContext.
         const taskId = requestContext.taskId;
@@ -50,6 +50,7 @@ export class BAFAgentExecutor implements AgentExecutor {
                     artifacts: [] // Initialize artifacts array
                 };
                 eventBus.publish(initialTask);
+                existingTask = initialTask;
             } else {
                 throw new Error("Failed to invoke Baf Agent");
             }
@@ -73,9 +74,8 @@ export class BAFAgentExecutor implements AgentExecutor {
             return;
         }
         const { chatId, historyId } = existingTask.metadata as { chatId: string; historyId: string };
-        
         if (chatId && historyId) {
-            await bafAgentClient.triggerStatusUpdate(chatId, historyId, requestContext, eventBus);
+            await bafAgentClient.triggerStatusUpdate(existingTask, eventBus);
         }
     }
 }   
