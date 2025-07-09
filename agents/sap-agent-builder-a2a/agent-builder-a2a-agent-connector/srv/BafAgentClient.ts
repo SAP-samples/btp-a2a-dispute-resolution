@@ -2,30 +2,31 @@ import cds from "@sap/cds";
 import { AgentClient, TokenFetching } from "./baf/AgentClient";
 import { ExecutionEventBus, RequestContext, Task, TaskArtifactUpdateEvent, TaskState, TaskStatusUpdateEvent } from "@a2a-js/sdk";
 
-const baf = cds.env.requires.baf; // locally, bind baf before for this line to work
-const AGENT_ID = baf.agentId;
-
 export class BAFAgentClient {
     private tokenFetcher: TokenFetching;
     private agentClient: AgentClient;
+    private agentId: string;
 
     constructor() {
-        const { clientId, clientSecret, tokenUrl, apiUrl } = baf.credentials;
-        this.tokenFetcher = new TokenFetching(`${tokenUrl}`, clientId, clientSecret);
+        const baf = cds.env.requires.baf.credentials; // locally, bind baf before for this line to work
+        const { clientid, clientsecret, url: tokenUrl } = baf.uaa;
+        const apiUrl = baf.service_urls.agent_api_url
+        this.agentId = baf.agentId;
+        this.tokenFetcher = new TokenFetching(`${tokenUrl}/oauth/token`, clientid, clientsecret);
         this.agentClient = new AgentClient(this.tokenFetcher, apiUrl);
         
     }
 
     async invokeAgentSync(taskId: string, message: string) {
         const client = this.agentClient.createClient();
-        const createChatResponse = await client.post<{ ID: string }>(`/api/v1/Agents(${AGENT_ID})/chats`, {
+        const createChatResponse = await client.post<{ ID: string }>(`/api/v1/Agents(${this.agentId})/chats`, {
             name: taskId
         });
         const chatId = createChatResponse.data.ID;
 
         // Start chat and get historyId (needed for streaming)
         const startChatResponse = await client.post<{ historyId: string }>(
-            `/api/v1/Agents(${AGENT_ID})/chats(${chatId})/UnifiedAiAgentService.sendMessage`,
+            `/api/v1/Agents(${this.agentId})/chats(${chatId})/UnifiedAiAgentService.sendMessage`,
             {
                 msg: message,
                 async: true
@@ -43,7 +44,7 @@ export class BAFAgentClient {
             // GET TASK STATE
             const chat = await client.get<{
                 state: string;
-            }>(`/api/v1/Agents(${AGENT_ID})/chats(${chatId})?$select=state`);
+            }>(`/api/v1/Agents(${this.agentId})/chats(${chatId})?$select=state`);
             switch (chat.data.state) {
                 case "none":
                     eventBus.publish(this.createStatusUpdateEvent("unknown" , taskId, contextId));
@@ -53,7 +54,7 @@ export class BAFAgentClient {
                     break;
                 case "running":
                     const trace = await client.get(
-                        `/api/v1/Agents(${AGENT_ID})/chats(${chatId})/history(${historyId})/trace` //?$filter=data/values/any(v: v/type eq 'agent')`
+                        `/api/v1/Agents(${this.agentId})/chats(${chatId})/history(${historyId})/trace` //?$filter=data/values/any(v: v/type eq 'agent')`
                     );
                     const agentTraces = trace?.data?.value
                     .filter((v: any) => v.type === "agent")
@@ -85,9 +86,9 @@ export class BAFAgentClient {
                             content: string;
                         }>;
                     }>(
-                        `/api/v1/Agents(${AGENT_ID})/chats(${chatId})/history?$filter=previous/ID eq ${historyId}`
+                        `/api/v1/Agents(${this.agentId})/chats(${chatId})/history?$filter=previous/ID eq ${historyId}`
                     );
-                    const content = successAnswers.data.value.pop().content;
+                    const content = successAnswers.data.value.pop()?.content ?? "";
                     if (!content) throw new Error("Could not find response Message in Thread");
 
                     const artifactUpdate: TaskArtifactUpdateEvent = {
@@ -153,7 +154,7 @@ export class BAFAgentClient {
         const client = this.agentClient.createClient();
         const chat = await client.get<{
             state: string;
-        }>(`/api/v1/Agents(${AGENT_ID})/chats(${chatId})?$select=state`);
+        }>(`/api/v1/Agents(${this.agentId})/chats(${chatId})?$select=state`);
         return chat
     }
 }

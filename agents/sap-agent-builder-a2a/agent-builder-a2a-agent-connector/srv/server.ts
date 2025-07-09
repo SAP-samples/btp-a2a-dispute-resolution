@@ -3,6 +3,7 @@ import { Express } from "express";
 import { InMemoryTaskStore, A2AExpressApp, DefaultRequestHandler } from "@a2a-js/sdk";
 import { BAFAgentExecutor } from "./AgentExecutor";
 
+// @ts-ignore
 cds.on("bootstrap", (app: Express) => {
     const taskStore = new InMemoryTaskStore();
     const agentExecutor = new BAFAgentExecutor();

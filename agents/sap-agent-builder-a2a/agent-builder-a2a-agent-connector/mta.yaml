@@ -24,13 +24,8 @@ modules:
       commands:
         # skip postinstall during build
         - npm ci --production --ignore-scripts
-    provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
     requires:
       - name: pab
-
 
 resources:
   - name: pab

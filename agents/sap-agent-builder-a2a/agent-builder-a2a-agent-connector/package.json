@@ -10,21 +10,19 @@
     },
     "dependencies": {
         "@a2a-js/sdk": "^0.2.2",
-        "@cap-js/ord": "^1.2.0",
-        "@modelcontextprotocol/sdk": "^1.7.0",
-        "@sap/cds": "^8",
-        "@sap/xssec": "^4",
+        "@cap-js/ord": "^1.3.3",
+        "@sap/cds": "^9",
         "axios": "^1.9.0",
-        "express": "^4",
-        "uuid": "^11.1.0"
+        "bcrypt": "^6.0.0",
+        "express": "^4"
     },
     "devDependencies": {
-        "@cap-js/cds-typer": ">=0.1",
-        "@cap-js/cds-types": "^0.9.0",
-        "@cap-js/sqlite": "^1",
+        "@cap-js/cds-typer": "0.33.1",
+        "@cap-js/cds-types": "^0.10.0",
+        "@sap/cds-dk": "^9.1.0",
         "@types/node": "^22.0.0",
-        "patch-package": "^8.0.0",
         "prettier": "^3.5.3",
+        "tsx": "^4",
         "typescript": "^5"
     },
     "scripts": {
@@ -32,16 +30,15 @@
         "watch": "cds-tsx w --profile hybrid",
         "build": "mbt build -t mta_archives --mtar sap-agent-builder-a2a-agent-connector.tar",
         "deploy-only": "cf deploy mta_archives/sap-agent-builder-a2a-agent-connector.tar",
-        "deploy": "npm run build && npm run deploy",
-        "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then patch-package && test -L node_modules/@types/sap__cds || ln -s ../@cap-js/cds-types node_modules/@types/sap__cds; fi"
-    },
-    "imports": {
-        "#cds-models/*": "./@cds-models/*/index.js"
+        "deploy": "npm run build && npm run deploy-only"
     },
     "prettier": {
         "singleQuote": false,
         "trailingComma": "none",
         "printWidth": 120,
         "tabWidth": 4
+    },
+    "imports": {
+        "#cds-models/*": "./@cds-models/*/index.js"
     }
 }

@@ -22,6 +22,7 @@ modules:
     build-parameters:
       builder: custom
       commands:
-        - npm ci --production --ignore-scripts # skip postinstall during build
+        # skip postinstall during build
+        - npm ci --production --ignore-scripts
 
 resources: []
