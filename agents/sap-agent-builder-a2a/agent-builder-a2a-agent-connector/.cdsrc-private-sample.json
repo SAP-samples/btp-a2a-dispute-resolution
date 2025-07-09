@@ -1,20 +1,19 @@
 {
-  "requires": {
-      "baf": {
-        "kind": "baf",
-        "credentials": {
-          "service_urls": {
-            "agent_api_url": ""
-          },
-          "uaa": {
-            "clientid": "",
-            "clientsecret": "",
-            "tokenUrl": "",
-            "apiUrl": ""
-          },
-          "agentId": "a858cf61-a845-41ed-88da-4dbe90111151"
+    "requires": {
+        "baf": {
+            "kind": "baf",
+            "credentials": {
+                "service_urls": {
+                    "agent_api_url": ""
+                },
+                "uaa": {
+                    "clientid": "",
+                    "clientsecret": "",
+                    "tokenUrl": "",
+                    "apiUrl": ""
+                },
+                "agentId": ""
+            }
         }
-      }
     }
-  }
 }
