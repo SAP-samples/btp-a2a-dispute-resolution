@@ -5,13 +5,14 @@
 1. Create the SAP Dispute Resolution Agent using the following JSON specification as a reference. Note: Importing this JSON directly to BAF is not supported at the moment. Instead, use the JSON to manually create the agent via the BAF UI.  
    [Dispute Resolution Agent JSON](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agents/sap-agent-builder-a2a/agent-builder-agent-exports/dispute-resolution-agent.json)
 
-2. Retrieve the Agent ID from BAF and add it to the `.cdsrc.json` of the Agent Connector: [Example](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agents/sap-agent-builder-a2a/agent-builder-a2a-agent-connector/.cdsrc.json)
+2. Duplicate the `.cdsrc-sample.json` as `.cdsrc.json`: [Sample Config](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agents/sap-agent-builder-a2a/agent-builder-a2a-agent-connector/.cdsrc-sample.json)
+3. Retrieve the Agent ID from BAF and add it to the created `.cdsrc.json` of the Agent Connector.
 
     <p float="left">
         <img src="./img/agent-id.png" alt="Agent ID" width="45%" />
    </p>
 
-3. Deploy the Agent Connector as an MTA to your SAP BTP Subaccount (Cloud Foundry Runtime):  
+4. Deploy the Agent Connector as an MTA to your SAP BTP Subaccount (Cloud Foundry Runtime):  
    ```bash
    npm install
    npm run deploy
@@ -95,14 +96,36 @@ This includes Agent Router as A2A Client
    npm i -g typescript ts-node tsx
    ```
    [Enable TypeScript Support](https://cap.cloud.sap/docs/node.js/typescript#enable-typescript-support)
-2. Ensure the `.cdsrc.json` contains correct Agent ID
-3. Make sure the Host of the Agent Connector in the Agent Catalog is set to your local machine. Open a tunnel (e.g., via ngrok) to your machine and point to your local CAP server (port 4005 here) by entering `<YOUR_TUNNEL>:4005/a2a-service`
-4. In the `agent-connector` [Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agents/sap-agent-builder-a2a/agent-builder-a2a-agent-connector) run:
+2. Duplicate the `.cdsrc-private-sample.json` as `.cdsrc-private.json`: [Sample Config](https://github.com/SAP-samples/btp-a2a-dispute-resolution/blob/main/agent-catalog/.cdsrc-private-sample.json)
+3. Enter the values for the created `.cdsrc-private.json` and make sure it contains the correct credentials from the `BAF service instance` and Agent ID:
+    ```json
+    {
+       "requires": {
+          "baf": {
+             "kind": "baf",
+             "credentials": {
+                "service_urls": {
+                   "agent_api_url": ""
+                },
+                "uaa": {
+                    "clientid": "",
+                    "clientsecret": "",
+                    "tokenUrl": "",
+                    "apiUrl": ""
+                },
+                "agentId": ""
+             }
+          }
+       }
+    }
+   ```
+5. Make sure the Host of the Agent Connector in the Agent Catalog is set to your local machine. Open a tunnel (e.g., via ngrok) to your machine and point to your local CAP server (port 4005 here) by entering `<YOUR_TUNNEL>:4005/a2a-service`
+6. In the `agent-connector` [Folder](https://github.com/SAP-samples/btp-a2a-dispute-resolution/tree/main/agents/sap-agent-builder-a2a/agent-builder-a2a-agent-connector) run:
    ```bash
    npm install
    npm run watch
    ```
-5. Trigger interactions via the Orchestrator Agent.
+7. Trigger interactions via the Orchestrator Agent.
 
 
 ## Test It Yourself
