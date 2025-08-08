@@ -1,10 +1,10 @@
 uvicorn[standard]
-a2a-sdk
+a2a-sdk==0.2.8
 httpx
 click
-langchain
-langchain-core
-langchain-openai
-langgraph
+langchain==0.3.26
+langchain-core==0.3.68
+langchain-openai==0.3.14
+langgraph==0.3.34
 python-dotenv
 pydantic
